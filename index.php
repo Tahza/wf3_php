@@ -72,7 +72,18 @@
 	echo "<br />";
 	echo "avant a vaut " . $a++ . " ";
 	echo "après a vaut " . $a;
-
+	echo "<pre>";
+	print_r($a);
+	echo "</pre>";
+	echo "<pre>";
+	var_dump($a);
+	echo "ce code n'est pas interprété\n\ndu tout";
+	echo "</pre>";
+	$array = ["couleur" => "rouge", "taille" => 1.70];
+	echo "<pre>";
+	var_dump($array);
+	echo "</pre>";
+	die ("fini");
 
 	?>
 
