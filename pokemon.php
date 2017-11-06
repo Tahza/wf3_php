@@ -59,7 +59,6 @@
 	}
 
 
-
 	// Ajoutons quelques baies pour restaurer des Points de Vies
 
 	$pv_baie_rouge = 50;
