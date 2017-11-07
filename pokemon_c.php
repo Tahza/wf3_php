@@ -1,13 +1,3 @@
-<html>
-<head>
-  <!-- Insérer le css ici -->
-  <title>Pokemon</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-</head>
-<body>
-
 <?php
 // Initialisation des variables
 // Mes pokemons
@@ -79,38 +69,6 @@ foreach($_GET as $input => $value) {
 }
 ?>
 
-  <form>
-    <fieldset>
-      <legend>Pokemon 1 :
-        <select id="pokemon1" name="pokemon1" <?php echo isset($form_error['pokemon1']) ? 'class="error"' : ''; ?>>
-          <?php
-            foreach($pokemons as $pokemon => $stats) {
-              echo '<option value="' . $pokemon . '">' . $pokemon . '</option>';
-            }
-          ?>
-        </select>
-      </legend>
-      <div>Points de vie : <input type="test" name="pv_pokemon1" value="<?php echo $pikachu['pv']; ?>" <?php echo isset($form_error['pv_pokemon1']) ? 'class="error"' : ''; ?> /></div>
-      <div>Points de défense : <input type="test" name="defense_pokemon1" value="<?php echo $pikachu['defense']; ?>" <?php echo isset($form_error['defense_pokemon1']) ? 'class="error"' : ''; ?> /></div>
-      <div>Points d'attaque : <input type="test" name="attaque_pokemon1" value="<?php echo $pikachu['attaque']; ?>" <?php echo isset($form_error['attaque_pokemon1']) ? 'class="error"' : ''; ?> /></div>
-    </fieldset>
-    <fieldset>
-      <legend>Pokemon 2 :
-        <select id="pokemon2" name="pokemon2" <?php echo isset($form_error['pokemon2']) ? 'class="error"' : ''; ?>>
-          <?php
-            foreach($pokemons as $pokemon => $stats) {
-              echo '<option value="' . $pokemon . '" ' . ($pokemon == 'Bulbizarre' ? 'selected' : '') . '>' . $pokemon . '</option>';
-            }
-          ?>
-        </select>
-      </legend>
-      <div>Points de vie : <input type="test" name="pv_pokemon2" value="<?php echo $bulbizarre['pv']; ?>" <?php echo isset($form_error['pv_pokemon2']) ? 'class="error"' : ''; ?> /></div>
-      <div>Points de défense : <input type="test" name="defense_pokemon2" value="<?php echo $bulbizarre['defense']; ?>" <?php echo isset($form_error['defense_pokemon2']) ? 'class="error"' : ''; ?> /></div>
-      <div>Points d'attaque : <input type="test" name="attaque_pokemon2" value="<?php echo $bulbizarre['attaque']; ?>" <?php echo isset($form_error['attaque_pokemon2']) ? 'class="error"' : ''; ?> /></div>
-    </fieldset>
-    <button type="submit">Combattez !</button>
-  </form>
-
 <?php
 /**
  * Bienvenue dans ce module PHP
@@ -126,7 +84,7 @@ if (count($form_error) > 0)
 
 if (count($_GET) == 0){
   echo "<h2>Veuillez sélectionner vos pokemons et lancez le combat</h2>";
-  exit;
+  return;
 }
 
 $tour = 0;
@@ -148,56 +106,31 @@ $pokemon2["defense"] = $_GET["defense_pokemon2"];
 echo "<h2>$nom_pokemon1 affronte $nom_pokemon2</h2>";
 
 //echo "Date : " . date('d/m/Y : H:i:s');
+
+?>
+
+<?php 
+include('fonction.php');
+?>
+
+<?php
+
 // Boucle de combat
 do {
   echo "<h2> Tour : " . ++$tour . " à " . date('H:i:s') . "</h2>";
-  // pikachu attaque bulbizarre
-  echo "<h3>$nom_pokemon1 attaque $nom_pokemon2</h3>";
-  if ($pokemon1['attaque'] >= $pokemon2['defense']) {
-    // L'attaque est supérieure à la défense : pikachu touche
-    $coup = $pokemon1['attaque'] - $pokemon2['defense'] + 1; // La valeur du coup est la différence entre l'attaque et la défense
-    $pokemon2['pv'] -= $coup;
-    echo "<p>$nom_pokemon2 perd $coup PV, il lui reste " . $pokemon2['pv'] . " PV</p>";
-  } else {
-    // La défense est supérieure à l'attaque, pikachu prend la moitié du coup et la défense baisse un peu
-    $coup = ($pokemon2['defense'] - $pokemon1['attaque']) / 2;
-    $pokemon1['pv'] -= $coup;
-    $pokemon2['defense'] -= 1;
-    echo "<p>$nom_pokemon2 perd 1 Points de défense, il lui reste " . $pokemon2['defense'] . " Points de défense</p>";
-    echo "<p>$nom_pokemon1 râte son attaque ! Il perd $coup Points de vie, il lui reste " . $pokemon1['pv'] . " Points de vie</p>";
-  }
-  if ($pokemon2['pv'] <= 0) // S'il n'y a pas d'accolades après un if, seule la première instruction est filtrée par le if
-    echo "<p>$nom_pokemon2 est KO !</p>";
-  if ($pokemon1['pv'] <= 0)
-    echo "<p>$nom_pokemon1 est KO !</p>";
-  // Et maintenant la contre-attaque : à vous de jouer !
-  // bulbizarre attaque pikachu
-  echo "<h3>$nom_pokemon2 attaque $nom_pokemon1</h3>";
-  if ($pokemon2['attaque'] >= $pokemon1['defense']) {
-    // L'attaque est supérieure à la défense : bulbizarre touche
-    $coup = $pokemon2['attaque'] - $pokemon1['defense'] + 1; // La valeur du coup est la différence entre l'attaque et la défense
-    $pokemon1['pv'] -= $coup;
-    echo "<p>$nom_pokemon1 perd $coup PV, il lui reste " . $pokemon1['pv'] . " PV</p>";
-  } else {
-    // La défense est supérieure à l'attaque, bulbizarre prend la moitié du coup et la défense baisse un peu
-    $coup = ($pokemon1['defense'] - $pokemon2['attaque']) / 2;
-    $pokemon2['pv'] -= $coup;
-    $pokemon1['defense'] -= 1;
-    echo "<p>$nom_pokemon1 perd 1 Points de défense, il lui reste " . $pokemon1['defense'] . " Points de défense</p>";
-    echo "<p>$nom_pokemon2 râte son attaque ! Il perd $coup Points de vie, il lui reste " . $pokemon2['pv'] . " Points de vie</p>";
-  }
-  if ($pokemon2['pv'] <= 0) // S'il n'y a pas d'accolades après un if, seule la première instruction est filtrée par le if
-    echo "<p>$nom_pokemon2 est KO !</p>";
-  if ($pokemon1['pv'] <= 0)
-    echo "<p>$nom_pokemon1 est KO !</p>";
-} while ($pokemon1['pv'] > 0 && $pokemon2['pv'] > 0); // === !($pikachu['pv'] <= 0 || $bulbizarre['pv'] <= 0)
+
+ $attaque = attaque($nom_pokemon1, $pokemon1, $nom_pokemon2, $pokemon2);
+
+ if ($pokemon2['pv'] <= 0) 
+    break;
+
+ $contre_attaque = attaque($nom_pokemon2, $pokemon2, $nom_pokemon1, $pokemon1);
+
+} while ($pokemon1['pv'] > 0 && $pokemon2['pv'] > 0); // === !($pikachu['pv'] <= 0 || $bulbizarre['pv'] <= 0)*/
+
 // Ajoutons quelques baies pour restaurer des Points de Vies
 $pv_baie_rouge = 50;
 $pv_baie_noire = 30;
 // Bulbizarre mange une baie rouge
 // Pikachu mange une baie noire
 ?>
-
-
-</body>
-</html>
