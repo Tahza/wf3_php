@@ -87,8 +87,6 @@ if (count($_GET) == 0){
   return;
 }
 
-$tour = 0;
-
 $nom_pokemon1 = $_GET['pokemon1'];
 $pokemon1 = $pokemons[$nom_pokemon1];
 
@@ -117,14 +115,13 @@ include('fonction.php');
 
 // Boucle de combat
 do {
-  echo "<h2> Tour : " . ++$tour . " à " . date('H:i:s') . "</h2>";
 
- $attaque = attaque($nom_pokemon1, $pokemon1, $nom_pokemon2, $pokemon2);
+ attaque($nom_pokemon1, $pokemon1, $nom_pokemon2, $pokemon2);
 
  if ($pokemon2['pv'] <= 0) 
     break;
 
- $contre_attaque = attaque($nom_pokemon2, $pokemon2, $nom_pokemon1, $pokemon1);
+ attaque($nom_pokemon2, $pokemon2, $nom_pokemon1, $pokemon1);
 
 } while ($pokemon1['pv'] > 0 && $pokemon2['pv'] > 0); // === !($pikachu['pv'] <= 0 || $bulbizarre['pv'] <= 0)*/
 
