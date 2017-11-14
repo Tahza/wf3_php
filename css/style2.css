@@ -1,0 +1,18 @@
+#parallax {
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+    height: 630px;
+    width: 100%;
+    background: url(../img/fond2.jpg) no-repeat center top !important;
+}
+
+#parallax .bg1 {
+	width: 1602px;
+    height: 603px;
+    background: url(../img/pokemon.png) no-repeat 0 0;
+}
+
+.parallax-layer {
+    position: absolute;
+}
